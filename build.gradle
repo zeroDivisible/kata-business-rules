@@ -4,5 +4,17 @@ sourceCompatibility = 1.6
 version = '1.0'
 
 repositories {
-   mavenCentral()
+    mavenCentral()
+}
+
+task "create-dirs"  {
+    description =  "creates basic directory structure for java project"
+
+    sourceSets*.java.srcDirs*.each {
+        it.mkdirs()
+    }
+
+    sourceSets*.resources.srcDirs*.each {
+        it.mkdirs()
+    }
 }
