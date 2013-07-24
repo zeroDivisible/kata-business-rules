@@ -1,4 +1,5 @@
 *.class
+*.iml
 
 # Package Files #
 *.jar
@@ -6,5 +7,4 @@
 *.ear
 .build.gradle.un~
 .idea/
-matasano.iml
 .gradle/

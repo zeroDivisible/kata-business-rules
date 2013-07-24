@@ -41,3 +41,8 @@ task "create-dirs"  {
         it.mkdirs()
     }
 }
+
+
+test {
+    useTestNG()
+}
