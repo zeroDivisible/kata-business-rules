@@ -1,6 +1,7 @@
 package io.business;
 
 import io.business.properties.Physical;
+import io.business.results.Result;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -12,23 +13,23 @@ import static org.fest.assertions.Assertions.assertThat;
 /**
  * @author zerodi
  */
-public class BusinessProcessorTest {
-    private BusinessProcessor businessProcessor;
+public class PaymentProcessorTest {
+    private PaymentProcessor paymentProcessor;
 
     @BeforeClass
     public void setUp() {
-        businessProcessor = new BusinessProcessor();
+        paymentProcessor = new PaymentProcessor();
     }
 
     @Test
     public void paymentForPhysicalProductGeneratesPackingSlip() throws Exception {
         // given
-        Collection<Object> results;
+        Collection<Result> results;
         Product product = new Product();
         product.addProperty(new Physical(true));
 
         // when
-        results = businessProcessor.process(product);
+        results = paymentProcessor.process(product);
 
         // then
         assertThat(results).hasSize(1);

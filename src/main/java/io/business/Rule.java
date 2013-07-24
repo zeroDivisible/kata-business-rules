@@ -1,6 +1,7 @@
 package io.business;
 
 import io.business.conditions.Condition;
+import io.business.results.Result;
 
 import java.util.ArrayList;
 import java.util.Collection;
