@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.isA;
 /**
  * @author zerodi
  */
-public class BsuinessProcessTest {
+public class BusinessProcessTest {
     private BusinessProcess businessProcess;
 
 
