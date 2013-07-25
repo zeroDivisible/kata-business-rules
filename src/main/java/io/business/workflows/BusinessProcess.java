@@ -33,18 +33,14 @@ public class BusinessProcess {
 
     public Collection<Result> process(Product product) {
         Collection<Result> resultCollection = new ArrayList<>();
-        boolean isOk = true;
 
         for (Condition condition : conditions) {
             if (!condition.validate(product)) {
-                isOk = false;
-                break;
+                return resultCollection;
             }
         }
 
-        if (isOk) {
-
-        }
+        // TODO if validation is ok, let's produce results
 
         return resultCollection;
     }
