@@ -1,10 +1,14 @@
 package io.business;
 
 import io.business.conditions.IsPhysical;
+import io.business.properties.Physical;
+import io.business.results.Result;
 import io.business.workflows.BusinessProcess;
 import io.business.results.PackingSlip;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.hasItem;
@@ -39,8 +43,7 @@ public class BusinessProcessTest {
     @Test
     public void addingConditionAndARuleShouldBeReportedProperly() throws Exception {
         // given
-        businessProcess.addCondition(new IsPhysical(true));
-        businessProcess.addResult(new PackingSlip());
+        businessProcess = physicalProcess();
 
         // then
         assertThat(businessProcess.getConditions(), hasSize(1));
@@ -53,5 +56,30 @@ public class BusinessProcessTest {
     public void blankProcessDoesntProduceAnyResultsAfterProcessing() throws Exception {
         // then
         assertThat(businessProcess.process(new Product()), hasSize(0));
+    }
+
+
+    @Test
+    public void processCheckingPhysicalPropertiesProducesAPackingSlip() {
+        // given
+        businessProcess = physicalProcess();
+        Product product = new Product();
+        product.addProperty(new Physical(true));
+
+        // when
+        Collection<Result> processingResult = businessProcess.process(product);
+
+        // then
+        assertThat(processingResult, hasSize(1));
+        assertThat(processingResult, hasItem(isA(PackingSlip.class)));
+    }
+
+
+    public static BusinessProcess physicalProcess() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsPhysical(true));
+        process.addResult(new PackingSlip());
+
+        return process;
     }
 }

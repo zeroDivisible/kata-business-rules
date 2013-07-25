@@ -35,7 +35,7 @@ public class PackingSlipTest {
     }
 
     @Test
-    public void assiginigASpecificProductWillAllowToRetrieveIt() throws Exception {
+    public void assigningASpecificProductWillAllowToRetrieveIt() throws Exception {
         // given
         Product product = new Product();
 

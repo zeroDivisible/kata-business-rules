@@ -34,8 +34,7 @@ public class PaymentProcessorTest {
         // given
         Collection<Result> results;
         product.addProperty(new Physical(true));
-        businessProcess.addCondition(new IsPhysical(true));
-        businessProcess.addResult(new PackingSlip());
+        businessProcess = BusinessProcessTest.physicalProcess();
         paymentProcessor.addBusinessProcess(businessProcess);
 
         // when
@@ -43,6 +42,21 @@ public class PaymentProcessorTest {
 
         // then
         assertThat(results, hasItem(isA(PackingSlip.class)));
+    }
+
+    @Test
+    public void paymentForNonPhysicalProductDoesntProduceAPackingSlip() throws Exception {
+         // given
+        Collection<Result> results;
+        product.addProperty(new Physical(false));
+        businessProcess = BusinessProcessTest.physicalProcess();
+        paymentProcessor.addBusinessProcess(businessProcess);
+
+        // when
+        results = paymentProcessor.process(product);
+
+        // then
+        assertThat(results, not(hasItem(isA(PackingSlip.class))));
     }
 
     @Test
