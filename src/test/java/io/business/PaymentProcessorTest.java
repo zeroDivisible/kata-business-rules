@@ -1,5 +1,6 @@
 package io.business;
 
+import io.business.conditions.IsPhysical;
 import io.business.properties.Physical;
 import io.business.results.PackingSlip;
 import io.business.results.Result;
@@ -18,18 +19,24 @@ import static org.hamcrest.Matchers.*;
  */
 public class PaymentProcessorTest {
     private PaymentProcessor paymentProcessor;
+    private Product product;
+    private BusinessProcess businessProcess;
 
     @BeforeMethod
     public void setUp() {
         paymentProcessor = new PaymentProcessor();
+        product = new Product();
+        businessProcess = new BusinessProcess();
     }
 
     @Test
     public void paymentForPhysicalProductGeneratesPackingSlip() throws Exception {
         // given
         Collection<Result> results;
-        Product product = new Product();
         product.addProperty(new Physical(true));
+        businessProcess.addCondition(new IsPhysical(true));
+        businessProcess.addResult(new PackingSlip());
+        paymentProcessor.addBusinessProcess(businessProcess);
 
         // when
         results = paymentProcessor.process(product);
@@ -50,7 +57,7 @@ public class PaymentProcessorTest {
         BusinessProcess businessProcess = new BusinessProcess();
 
         // when
-        paymentProcessor.addWorkflow(businessProcess);
+        paymentProcessor.addBusinessProcess(businessProcess);
 
         // then
         assertThat(paymentProcessor.getBusinessProcesses(), hasSize(1));

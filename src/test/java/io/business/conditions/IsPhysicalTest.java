@@ -13,27 +13,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class IsPhysicalTest {
     private IsPhysical isPhysical;
+    private IsPhysical isNotPhysical;
 
     @BeforeMethod
     public void setUp() throws Exception {
-        isPhysical = new IsPhysical();
+        isPhysical = new IsPhysical(true);
+        isNotPhysical = new IsPhysical(false);
     }
 
     @Test
-    public void validateShouldBeTrueForPhysicalProperties() throws Exception {
+    public void validatingPropertiesShouldBeTrueForPhysicalProperties() throws Exception {
         // given
         Physical physical = new Physical(true);
 
         // then
         assertThat(isPhysical.validate(physical), is(true));
+        assertThat(isNotPhysical.validate(physical), is(false));
     }
 
     @Test
-    public void validateShouldBeFalseForAnyNonPhysicalProperty() throws Exception {
+    public void validatingPropertiesBeFalseForAnyNonPhysicalProperty() throws Exception {
         // given
         Physical physical = new Physical(false);
 
         // then
         assertThat(isPhysical.validate(physical), is(false));
+        assertThat(isNotPhysical.validate(physical), is(true));
     }
 }

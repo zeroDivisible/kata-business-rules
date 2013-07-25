@@ -31,7 +31,7 @@ public class PaymentProcessor {
         return businessProcesses;
     }
 
-    public void addWorkflow(BusinessProcess businessProcess) {
+    public void addBusinessProcess(BusinessProcess businessProcess) {
         this.businessProcesses.add(businessProcess);
     }
 }

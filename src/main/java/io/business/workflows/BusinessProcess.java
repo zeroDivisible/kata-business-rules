@@ -1,5 +1,6 @@
 package io.business.workflows;
 
+import io.business.Product;
 import io.business.conditions.Condition;
 import io.business.results.Result;
 
@@ -28,5 +29,23 @@ public class BusinessProcess {
 
     public void addResult(Result result) {
         this.results.add(result);
+    }
+
+    public Collection<Result> process(Product product) {
+        Collection<Result> resultCollection = new ArrayList<>();
+        boolean isOk = true;
+
+        for (Condition condition : conditions) {
+            if (!condition.validate(product)) {
+                isOk = false;
+                break;
+            }
+        }
+
+        if (isOk) {
+
+        }
+
+        return resultCollection;
     }
 }

@@ -39,7 +39,7 @@ public class BusinessProcessTest {
     @Test
     public void addingConditionAndARuleShouldBeReportedProperly() throws Exception {
         // given
-        businessProcess.addCondition(new IsPhysical());
+        businessProcess.addCondition(new IsPhysical(true));
         businessProcess.addResult(new PackingSlip());
 
         // then
@@ -47,5 +47,11 @@ public class BusinessProcessTest {
         assertThat(businessProcess.getConditions(), hasItem(isA(IsPhysical.class)));
         assertThat(businessProcess.getResults(), hasSize(1));
         assertThat(businessProcess.getResults(), hasItem(isA(PackingSlip.class)));
+    }
+
+    @Test
+    public void blankProcessDoesntProduceAnyResultsAfterProcessing() throws Exception {
+        // then
+        assertThat(businessProcess.process(new Product()), hasSize(0));
     }
 }
