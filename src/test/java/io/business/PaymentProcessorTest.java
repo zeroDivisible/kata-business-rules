@@ -1,13 +1,16 @@
 package io.business;
 
 import io.business.properties.Physical;
+import io.business.results.PackingSlip;
 import io.business.results.Result;
-import org.testng.annotations.BeforeClass;
+import io.business.workflows.BusinessProcess;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Collection;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 
 /**
@@ -16,7 +19,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class PaymentProcessorTest {
     private PaymentProcessor paymentProcessor;
 
-    @BeforeClass
+    @BeforeMethod
     public void setUp() {
         paymentProcessor = new PaymentProcessor();
     }
@@ -32,7 +35,24 @@ public class PaymentProcessorTest {
         results = paymentProcessor.process(product);
 
         // then
-        assertThat(results).hasSize(1);
+        assertThat(results, hasItem(isA(PackingSlip.class)));
     }
 
+    @Test
+    public void newPaymentProcessorDoesntHaveAnyWorkflows() throws Exception {
+        // then
+        assertThat(paymentProcessor.getBusinessProcesses(), hasSize(0));
+    }
+
+    @Test
+    public void addingWorkflowShouldAddOneWorkflowToProcessor() throws Exception {
+        // given
+        BusinessProcess businessProcess = new BusinessProcess();
+
+        // when
+        paymentProcessor.addWorkflow(businessProcess);
+
+        // then
+        assertThat(paymentProcessor.getBusinessProcesses(), hasSize(1));
+    }
 }

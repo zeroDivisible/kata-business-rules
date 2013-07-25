@@ -4,7 +4,9 @@ import io.business.properties.Physical;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 /**
  * @author zerodi
@@ -23,7 +25,7 @@ public class IsPhysicalTest {
         Physical physical = new Physical(true);
 
         // then
-        assertThat(isPhysical.validate(physical)).isEqualTo(true);
+        assertThat(isPhysical.validate(physical), is(true));
     }
 
     @Test
@@ -32,6 +34,6 @@ public class IsPhysicalTest {
         Physical physical = new Physical(false);
 
         // then
-        assertThat(isPhysical.validate(physical)).isEqualTo(false);
+        assertThat(isPhysical.validate(physical), is(false));
     }
 }

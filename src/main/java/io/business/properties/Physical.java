@@ -10,7 +10,6 @@ public class Physical implements Property {
         this.physical = physical;
     }
 
-
     public boolean isPhysical() {
         return physical;
     }

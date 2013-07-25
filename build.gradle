@@ -14,7 +14,6 @@ dependencies {
 
     // test stuff
     compile 'org.testng:testng:6.8.5'
-    compile 'org.easytesting:fest-assert:1.4'
     compile 'org.hamcrest:hamcrest-all:1.3'
 }
 

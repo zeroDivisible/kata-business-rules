@@ -1,4 +1,4 @@
-package io.business;
+package io.business.workflows;
 
 import io.business.conditions.Condition;
 import io.business.results.Result;
@@ -9,20 +9,20 @@ import java.util.Collection;
 /**
  * @author zerodi
  */
-public class Rule {
+public class BusinessProcess {
     private Collection<Condition> conditions = new ArrayList<>();
     private Collection<Result> results = new ArrayList<>();
 
-    public Collection<?> getConditions() {
+    public Collection<Condition> getConditions() {
         return conditions;
     }
 
-    public void setConditions(Condition condition) {
+    public void addCondition(Condition condition) {
         this.conditions.add(condition);
     }
 
 
-    public Collection<?> getResults() {
+    public Collection<Result> getResults() {
         return results;
     }
 
