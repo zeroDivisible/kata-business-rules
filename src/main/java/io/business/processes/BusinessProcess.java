@@ -1,4 +1,4 @@
-package io.business.workflows;
+package io.business.processes;
 
 import io.business.Product;
 import io.business.conditions.Condition;

@@ -45,4 +45,13 @@ public class PackingSlipTest {
         // then
         assertThat(packingSlip.getProduct(), is(product));
     }
+
+    @Test
+    public void packingSlipCanBeAddressedToDepartment() throws Exception {
+        // given
+        packingSlip.setDepartment("Royalty Department");
+
+        // then
+        assertThat(packingSlip.getDepartment(), is(equalTo("Royalty Department")));
+    }
 }

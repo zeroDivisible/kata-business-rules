@@ -1,10 +1,9 @@
 package io.business;
 
-import io.business.conditions.IsPhysical;
 import io.business.properties.Physical;
 import io.business.results.PackingSlip;
 import io.business.results.Result;
-import io.business.workflows.BusinessProcess;
+import io.business.processes.BusinessProcess;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
