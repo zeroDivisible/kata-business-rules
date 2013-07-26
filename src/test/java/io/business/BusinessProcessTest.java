@@ -2,6 +2,7 @@ package io.business;
 
 import com.beust.jcommander.internal.Lists;
 import io.business.conditions.Condition;
+import io.business.conditions.HasState;
 import io.business.conditions.IsPhysical;
 import io.business.conditions.IsType;
 import io.business.properties.Physical;
@@ -112,6 +113,20 @@ public class BusinessProcessTest {
     }
 
 
+    @Test
+    public void paymentForActiveMembershipShouldUpgradeTheMembership() {
+        // given
+        businessProcess = fourthProcess();
+        product.addProperty(new Type("Membership"));
+        product.addProperty(State.ACTIVE);
+
+        // when
+        businessProcess.process(product);
+
+        // then
+        assertThat(product.getProperty(State.class)).isEqualTo(State.UPGRADED);
+    }
+
     public static BusinessProcess physicalProcess() {
         BusinessProcess process = new BusinessProcess();
         process.addCondition(new IsPhysical(true));
@@ -133,5 +148,11 @@ public class BusinessProcessTest {
         return process;
     }
 
-
+    private static BusinessProcess fourthProcess() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(State.ACTIVE));
+        process.addResult(new ChangeState(State.UPGRADED));
+        return process;
+    }
 }
