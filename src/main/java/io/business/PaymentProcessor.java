@@ -1,7 +1,7 @@
 package io.business;
 
 import io.business.results.Result;
-import io.business.workflows.BusinessProcess;
+import io.business.processes.BusinessProcess;
 
 import java.util.ArrayList;
 import java.util.Collection;
