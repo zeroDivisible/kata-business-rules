@@ -1,5 +1,6 @@
 package io.business.conditions;
 
+import io.business.Product;
 import io.business.properties.Property;
 import io.business.properties.State;
 import org.testng.annotations.BeforeMethod;
@@ -35,4 +36,20 @@ public class HasStateTest {
         assertThat(resultForInactiveTest).isEqualTo(true);
         assertThat(resultForActiveTest).isEqualTo(false);
     }
+
+    @Test
+    public void testingForInactiveProductShouldBeTrueForInactiveStates() throws Exception {
+        // given
+        Product product = new Product();
+        product.addProperty(State.INACTIVE);
+
+        // when
+        boolean resultForInactiveTest = hasInactiveState.validate(product);
+        boolean resultForActiveTest = hasActiveState.validate(product);
+
+        // then
+        assertThat(resultForInactiveTest).isEqualTo(true);
+        assertThat(resultForActiveTest).isEqualTo(false);
+    }
+
 }

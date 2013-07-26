@@ -1,6 +1,7 @@
 package io.business.conditions;
 
 import io.business.Product;
+import io.business.properties.Physical;
 import io.business.properties.Property;
 import io.business.properties.State;
 
@@ -17,7 +18,13 @@ public class HasState implements Condition{
 
     @Override
     public boolean validate(Product product) {
-        return false;  //TODO Implement
+        for (Property property : product.getProperties()) {
+            if (property instanceof State) {
+                return state.equals(property);
+            }
+        }
+
+        return false;
     }
 
     @Override

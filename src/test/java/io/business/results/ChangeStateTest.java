@@ -30,4 +30,6 @@ public class ChangeStateTest {
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(State.ACTIVE);
     }
+
+
 }
