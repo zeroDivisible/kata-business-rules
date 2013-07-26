@@ -3,6 +3,8 @@ package io.business.conditions;
 import io.business.Product;
 import io.business.properties.Property;
 import io.business.properties.State;
+import org.omg.PortableInterceptor.ACTIVE;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -18,15 +20,15 @@ public class HasStateTest {
 
     @BeforeMethod
     public void setUp() {
-        hasInactiveState = new HasState(State.INACTIVE);
-        hasActiveState = new HasState(State.ACTIVE);
+        hasInactiveState = new HasState(new State("INACTIVE"));
+        hasActiveState = new HasState(new State("ACTIVE"));
     }
 
 
     @Test
     public void testingForInactiveStateShouldBeTrueForInactiveStates() throws Exception {
         // given
-        Property state = State.INACTIVE;
+        Property state = new State("INACTIVE");
 
         // when
         boolean resultForInactiveTest = hasInactiveState.validate(state);
@@ -41,7 +43,7 @@ public class HasStateTest {
     public void testingForInactiveProductShouldBeTrueForInactiveStates() throws Exception {
         // given
         Product product = new Product();
-        product.addProperty(State.INACTIVE);
+        product.addProperty(new State("INACTIVE"));
 
         // when
         boolean resultForInactiveTest = hasInactiveState.validate(product);

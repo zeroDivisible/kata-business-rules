@@ -2,6 +2,7 @@ package io.business;
 
 import io.business.properties.Physical;
 import io.business.properties.State;
+import org.omg.PortableInterceptor.ACTIVE;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,12 +51,21 @@ public class ProductTest {
     @Test
     public void removingAPropertyFromProductShouldMakeItDisappear() {
         // given
-        product.addProperty(State.INACTIVE);
+        product.addProperty(new State("INACTIVE"));
 
         // when
         product.removeProperties(State.class);
 
         // then
         assertThat(product.hasProperty(State.class)).isFalse();
+    }
+
+    @Test
+    public void assigningAPropertyShouldStoreTheReferenceToParrentInProperty() throws Exception {
+        // given
+        product.addProperty(new State("ACTIVE"));
+
+        // then
+        assertThat(product.getProperty(State.class).getParentProduct()).isEqualTo(product);
     }
 }

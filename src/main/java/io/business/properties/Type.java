@@ -1,10 +1,12 @@
 package io.business.properties;
 
 
+import io.business.Product;
+
 /**
  * @author zerodi
  */
-public class Type implements Property {
+public class Type extends Property {
 
     private final String type;
 

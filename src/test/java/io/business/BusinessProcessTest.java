@@ -1,10 +1,7 @@
 package io.business;
 
 import com.beust.jcommander.internal.Lists;
-import io.business.conditions.Condition;
-import io.business.conditions.HasState;
-import io.business.conditions.IsPhysical;
-import io.business.conditions.IsType;
+import io.business.conditions.*;
 import io.business.properties.Physical;
 import io.business.properties.State;
 import io.business.properties.Type;
@@ -110,7 +107,7 @@ public class BusinessProcessTest {
         businessProcess.process(new Payment(product));
 
         // then
-        assertThat(product.getProperty(State.class)).isEqualTo(State.ACTIVE);
+        assertThat(product.getProperty(State.class)).isEqualTo(new State("ACTIVE"));
     }
 
 
@@ -119,43 +116,80 @@ public class BusinessProcessTest {
         // given
         businessProcess = fourthProcess();
         product.addProperty(new Type("Membership"));
-        product.addProperty(State.ACTIVE);
+        product.addProperty(new State("ACTIVE"));
 
         // when
         businessProcess.process(new Payment(product));
 
         // then
-        assertThat(product.getProperty(State.class)).isEqualTo(State.UPGRADED);
+        assertThat(product.getProperty(State.class)).isEqualTo(new State("UPGRADED"));
     }
 
 
     @Test
     public void paymentForAMembershipShouldGenerateAnEmailAboutTheActivation() {
         // given
-        businessProcess = fifthProcess();
+        businessProcess = fifthProcessA();
         product.addProperty(new Type("Membership"));
-        product.addProperty(State.INACTIVE);
+        product.addProperty(new State("INACTIVE"));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
 
         // when
-        ArrayList<Result> results = new ArrayList<>();
-        results.addAll(businessProcess.process(new Payment(product)));
+        ArrayList <Result> results = new ArrayList<>();
+        results.addAll(businessProcess.process(payment));
 
         // then
         assertThat(results).hasSize(2);
         assertThat(results.get(0)).isInstanceOf(ChangeState.class);
-        assertThat(((ChangeState)results.get(0)).getTargetState()).isEqualTo(State.ACTIVE);
+        assertThat(((ChangeState)results.get(0)).getTargetState()).isEqualTo(new State("ACTIVE"));
         assertThat(results.get(1)).isInstanceOf(Email.class);
         assertThat(((Email)results.get(1)).getMessage()).containsIgnoringCase("Membership activated.");
     }
 
-    private BusinessProcess fifthProcess() {
+    @Test
+    public void paymentForAMembershipUpgradeShouldGenerateAnEmail() {
+        // given
+        businessProcess = fifthProcessB();
+        product.addProperty(new Type("Membership"));
+        product.addProperty(new State("ACTIVE"));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.UPGRADE);
+
+        // when
+        ArrayList <Result> results = new ArrayList<>();
+        results.addAll(businessProcess.process(payment));
+
+        // then
+        assertThat(results).hasSize(2);
+        assertThat(results.get(0)).isInstanceOf(ChangeState.class);
+        assertThat(((ChangeState)results.get(0)).getTargetState()).isEqualTo(new State("UPGRADED"));
+        assertThat(results.get(1)).isInstanceOf(Email.class);
+        assertThat(((Email)results.get(1)).getMessage()).containsIgnoringCase("Membership upgraded.");
+    }
+
+
+    private BusinessProcess fifthProcessA() {
         BusinessProcess process= new BusinessProcess();
         process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(State.INACTIVE));
-        process.addResult(new ChangeState(State.ACTIVE));
+        process.addCondition(new HasState(new State("INACTIVE")));
+        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
+        process.addResult(new ChangeState(new State("ACTIVE")));
         process.addResult(new Email("Membership activated."));
         return process;
     }
+
+    private BusinessProcess fifthProcessB() {
+        BusinessProcess process= new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(new State("ACTIVE")));
+        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
+        process.addResult(new ChangeState(new State("UPGRADED")));
+        process.addResult(new Email("Membership upgraded."));
+        return process;
+    }
+
+
 
     public static BusinessProcess physicalProcess() {
         BusinessProcess process = new BusinessProcess();
@@ -174,15 +208,15 @@ public class BusinessProcessTest {
     private BusinessProcess thirdProcess() {
         BusinessProcess process = new BusinessProcess();
         process.addCondition(new IsType("Membership"));
-        process.addResult(new ChangeState(State.ACTIVE));
+        process.addResult(new ChangeState(new State("ACTIVE")));
         return process;
     }
 
     private static BusinessProcess fourthProcess() {
         BusinessProcess process = new BusinessProcess();
         process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(State.ACTIVE));
-        process.addResult(new ChangeState(State.UPGRADED));
+        process.addCondition(new HasState(new State("ACTIVE")));
+        process.addResult(new ChangeState(new State("UPGRADED")));
         return process;
     }
 }

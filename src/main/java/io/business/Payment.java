@@ -1,7 +1,5 @@
 package io.business;
 
-import java.math.BigDecimal;
-
 /**
  * @author zerodi
  */
@@ -12,12 +10,12 @@ public class Payment {
 
     public Payment(Product product) {
         this.product = product;
-        product.addAssociatedPayment(this);
+        product.setRelatedPayment(this);
     }
 
     public void setProduct(Product product) {
         this.product = product;
-        product.addAssociatedPayment(this);
+        product.setRelatedPayment(this);
     }
 
     public Product getProduct() {

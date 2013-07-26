@@ -26,7 +26,7 @@ public class PaymentTest {
 
         // then
         assertThat(payment.getProduct()).isEqualTo(product);
-        assertThat(product.getAssociatedPayments()).contains(payment);
+        assertThat(product.getRelatedPayment()).isEqualTo(payment);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class PaymentTest {
 
         // then
         assertThat(payment.getProduct()).isEqualTo(product);
-        assertThat(product.getAssociatedPayments()).contains(payment);
+        assertThat(product.getRelatedPayment()).isEqualTo(payment);
     }
 
     @Test

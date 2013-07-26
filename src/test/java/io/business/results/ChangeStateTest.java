@@ -2,6 +2,8 @@ package io.business.results;
 
 import io.business.Product;
 import io.business.properties.State;
+import org.omg.PortableInterceptor.ACTIVE;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,20 +17,20 @@ public class ChangeStateTest {
 
     @BeforeMethod
     public void setUp() {
-        changeStateToActive = new ChangeState(State.ACTIVE);
+        changeStateToActive = new ChangeState(new State("ACTIVE"));
     }
 
     @Test
     public void activatingTheProductShouldChangeItsState() throws Exception {
         //given
         Product product = new Product();
-        product.addProperty(State.INACTIVE);
+        product.addProperty(new State("INACTIVE"));
 
         // when
         changeStateToActive.on(product);
 
         // then
-        assertThat(product.getProperty(State.class)).isEqualTo(State.ACTIVE);
+        assertThat(product.getProperty(State.class)).isEqualTo(new State("ACTIVE"));
     }
 
 

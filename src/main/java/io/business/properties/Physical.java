@@ -1,9 +1,11 @@
 package io.business.properties;
 
+import io.business.Product;
+
 /**
  * @author zerodi
  */
-public class Physical implements Property {
+public class Physical extends Property {
     private boolean physical;
 
     public Physical(boolean physical) {

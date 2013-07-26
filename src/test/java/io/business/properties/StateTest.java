@@ -14,12 +14,12 @@ public class StateTest {
 
     @BeforeMethod
     public void setUp() {
-        state = State.INACTIVE;
+        state = new State("INACTIVE");
     }
 
     @Test
     public void creationOfStateShouldAllowRetrievingThisState() throws Exception {
         // then
-        assertThat(state).isEqualTo(State.INACTIVE);
+        assertThat(state).isEqualTo(new State("INACTIVE"));
     }
 }

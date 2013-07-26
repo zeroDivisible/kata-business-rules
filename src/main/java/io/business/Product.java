@@ -13,7 +13,7 @@ import java.util.List;
 public class Product {
 
     private Collection<Property> properties = new ArrayList<>();
-    private List<Payment> associatedPayments = new ArrayList<>();
+    private Payment relatedPayment;
 
     public Collection<Property> getProperties() {
         return properties;
@@ -21,6 +21,7 @@ public class Product {
 
     public void addProperty(Property property) {
         properties.add(property);
+        property.setParentProduct(this);
     }
 
     public boolean hasProperty(Class<? extends Property> propertyClass) {
@@ -62,15 +63,11 @@ public class Product {
     }
 
 
-    public List<Payment> getAssociatedPayments() {
-        return associatedPayments;
+    public void setRelatedPayment(Payment payment) {
+        this.relatedPayment = payment;
     }
 
-    public void addAssociatedPayment(Payment payment) {
-        associatedPayments.add(payment);
-    }
-
-    public void setAssociatedPayments(List<Payment> associatedPayments) {
-        this.associatedPayments = associatedPayments;
+    public Payment getRelatedPayment() {
+        return relatedPayment;
     }
 }
