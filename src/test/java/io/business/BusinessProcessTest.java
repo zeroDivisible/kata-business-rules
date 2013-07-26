@@ -66,7 +66,7 @@ public class BusinessProcessTest {
     @Test
     public void blankProcessDoesntProduceAnyResultsAfterProcessing() throws Exception {
         // then
-        assertThat(businessProcess.process(new Product())).hasSize(0);
+        assertThat(businessProcess.process(new Payment(new Product()))).hasSize(0);
     }
 
 
@@ -77,7 +77,7 @@ public class BusinessProcessTest {
         product.addProperty(new Physical(true));
 
         // when
-        Collection<Result> processingResult = businessProcess.process(product);
+        Collection<Result> processingResult = businessProcess.process(new Payment(product));
 
         // then
         assertThat(processingResult).hasSize(1);
@@ -92,7 +92,7 @@ public class BusinessProcessTest {
 
         // when
         ArrayList<Result> results = new ArrayList<>();
-        results.addAll(businessProcess.process(product));
+        results.addAll(businessProcess.process(new Payment(product)));
 
         // then
         assertThat(results).hasSize(1);
@@ -107,7 +107,7 @@ public class BusinessProcessTest {
         product.addProperty(new Type("Membership"));
 
         // when
-        businessProcess.process(product);
+        businessProcess.process(new Payment(product));
 
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(State.ACTIVE);
@@ -122,7 +122,7 @@ public class BusinessProcessTest {
         product.addProperty(State.ACTIVE);
 
         // when
-        businessProcess.process(product);
+        businessProcess.process(new Payment(product));
 
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(State.UPGRADED);
@@ -138,7 +138,7 @@ public class BusinessProcessTest {
 
         // when
         ArrayList<Result> results = new ArrayList<>();
-        results.addAll(businessProcess.process(product));
+        results.addAll(businessProcess.process(new Payment(product)));
 
         // then
         assertThat(results).hasSize(2);

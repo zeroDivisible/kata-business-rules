@@ -1,12 +1,11 @@
 package io.business;
 
-import io.business.properties.Physical;
 import io.business.properties.Property;
-import io.business.properties.State;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author zerodi
@@ -14,13 +13,10 @@ import java.util.Iterator;
 public class Product {
 
     private Collection<Property> properties = new ArrayList<>();
+    private List<Payment> associatedPayments = new ArrayList<>();
 
     public Collection<Property> getProperties() {
         return properties;
-    }
-
-    public void setProperties(Collection<Property> properties) {
-        this.properties = properties;
     }
 
     public void addProperty(Property property) {
@@ -63,5 +59,18 @@ public class Product {
                 iterator.remove();
             }
         }
+    }
+
+
+    public List<Payment> getAssociatedPayments() {
+        return associatedPayments;
+    }
+
+    public void addAssociatedPayment(Payment payment) {
+        associatedPayments.add(payment);
+    }
+
+    public void setAssociatedPayments(List<Payment> associatedPayments) {
+        this.associatedPayments = associatedPayments;
     }
 }

@@ -1,5 +1,6 @@
 package io.business.processes;
 
+import io.business.Payment;
 import io.business.Product;
 import io.business.conditions.Condition;
 import io.business.results.Result;
@@ -31,18 +32,18 @@ public class BusinessProcess {
         this.results.add(result);
     }
 
-    public Collection<Result> process(Product product) {
+    public Collection<Result> process(Payment payment) {
         Collection<Result> resultCollection = new ArrayList<>();
 
         for (Condition condition : conditions) {
-            if (!condition.validate(product)) {
+            if (!condition.validate(payment.getProduct())) {
                 return resultCollection; // which will be empty at this stage;
             }
         }
 
         // but if we had reached this point, let's get results from the system.
         for (Result result : results) {
-            result.on(product);
+            result.on(payment.getProduct());
             resultCollection.add(result);
         }
 

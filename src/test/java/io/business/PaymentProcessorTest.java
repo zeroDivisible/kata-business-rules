@@ -37,7 +37,7 @@ public class PaymentProcessorTest {
         paymentProcessor.addBusinessProcess(businessProcess);
 
         // when
-        results = paymentProcessor.process(product);
+        results = paymentProcessor.process(new Payment(product));
 
         // then
         assertThat(results, hasItem(isA(PackingSlip.class)));
@@ -52,7 +52,7 @@ public class PaymentProcessorTest {
         paymentProcessor.addBusinessProcess(businessProcess);
 
         // when
-        results = paymentProcessor.process(product);
+        results = paymentProcessor.process(new Payment(product));
 
         // then
         assertThat(results, not(hasItem(isA(PackingSlip.class))));

@@ -14,11 +14,11 @@ public class PaymentProcessor {
 
     private Collection<BusinessProcess> businessProcesses = new ArrayList<>();
 
-    public Collection<Result> process(Product product) {
+    public Collection<Result> process(Payment payment) {
         List<Result> returnValues = new ArrayList<>();
 
         for (BusinessProcess businessProcess : businessProcesses) {
-            returnValues.addAll(businessProcess.process(product));
+            returnValues.addAll(businessProcess.process(payment));
         }
 
         return returnValues;
