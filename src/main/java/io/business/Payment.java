@@ -12,10 +12,12 @@ public class Payment {
 
     public Payment(Product product) {
         this.product = product;
+        product.addAssociatedPayment(this);
     }
 
     public void setProduct(Product product) {
         this.product = product;
+        product.addAssociatedPayment(this);
     }
 
     public Product getProduct() {

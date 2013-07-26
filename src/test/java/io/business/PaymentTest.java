@@ -26,6 +26,20 @@ public class PaymentTest {
 
         // then
         assertThat(payment.getProduct()).isEqualTo(product);
+        assertThat(product.getAssociatedPayments()).contains(payment);
+    }
+
+    @Test
+    public void creatingAPaymentWithAProductShouldAssociateThisProductWithThisPayment() {
+        // given
+        Product product = new Product();
+
+        // when
+        payment = new Payment(product);
+
+        // then
+        assertThat(payment.getProduct()).isEqualTo(product);
+        assertThat(product.getAssociatedPayments()).contains(payment);
     }
 
     @Test
