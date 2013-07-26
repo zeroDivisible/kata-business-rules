@@ -28,7 +28,7 @@ public class PackingSlipTest {
     @Test
     public void assigningAProductWontProduceNullValue() throws Exception {
         // given
-        packingSlip.from(new Product());
+        packingSlip.on(new Product());
 
         // then
         assertThat(packingSlip.getProduct(), notNullValue());
@@ -40,7 +40,7 @@ public class PackingSlipTest {
         Product product = new Product();
 
         // when
-        packingSlip.from(product);
+        packingSlip.on(product);
 
         // then
         assertThat(packingSlip.getProduct(), is(product));

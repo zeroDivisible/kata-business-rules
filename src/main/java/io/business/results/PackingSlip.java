@@ -18,7 +18,7 @@ public class PackingSlip implements Result {
     }
 
     @Override
-    public void from(Product product) {
+    public void on(Product product) {
         this.product = product;
     }
 

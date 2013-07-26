@@ -25,7 +25,7 @@ public class ChangeStateTest {
         product.addProperty(State.INACTIVE);
 
         // when
-        changeStateToActive.from(product);
+        changeStateToActive.on(product);
 
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(State.ACTIVE);

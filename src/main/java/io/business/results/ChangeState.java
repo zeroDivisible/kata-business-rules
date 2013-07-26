@@ -14,7 +14,7 @@ public class ChangeState implements Result{
     }
 
     @Override
-    public void from(Product product) {
+    public void on(Product product) {
         if (product.hasProperty(State.class)) {
             product.removeProperties(State.class);
         }
