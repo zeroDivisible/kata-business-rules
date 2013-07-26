@@ -9,6 +9,7 @@ import io.business.properties.Physical;
 import io.business.properties.State;
 import io.business.properties.Type;
 import io.business.results.ChangeState;
+import io.business.results.Email;
 import io.business.results.Result;
 import io.business.processes.BusinessProcess;
 import io.business.results.PackingSlip;
@@ -125,6 +126,35 @@ public class BusinessProcessTest {
 
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(State.UPGRADED);
+    }
+
+
+    @Test
+    public void paymentForAMembershipShouldGenerateAnEmailAboutTheActivation() {
+        // given
+        businessProcess = fifthProcess();
+        product.addProperty(new Type("Membership"));
+        product.addProperty(State.INACTIVE);
+
+        // when
+        ArrayList<Result> results = new ArrayList<>();
+        results.addAll(businessProcess.process(product));
+
+        // then
+        assertThat(results).hasSize(2);
+        assertThat(results.get(0)).isInstanceOf(ChangeState.class);
+        assertThat(((ChangeState)results.get(0)).getTargetState()).isEqualTo(State.ACTIVE);
+        assertThat(results.get(1)).isInstanceOf(Email.class);
+        assertThat(((Email)results.get(1)).getMessage()).containsIgnoringCase("Membership activated.");
+    }
+
+    private BusinessProcess fifthProcess() {
+        BusinessProcess process= new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(State.INACTIVE));
+        process.addResult(new ChangeState(State.ACTIVE));
+        process.addResult(new Email("Membership activated."));
+        return process;
     }
 
     public static BusinessProcess physicalProcess() {

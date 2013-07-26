@@ -21,4 +21,8 @@ public class ChangeState implements Result{
 
         product.addProperty(targetState);
     }
+
+    public State getTargetState() {
+        return targetState;
+    }
 }
