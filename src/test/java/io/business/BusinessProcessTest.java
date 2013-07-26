@@ -5,7 +5,10 @@ import io.business.conditions.Condition;
 import io.business.conditions.IsPhysical;
 import io.business.conditions.IsType;
 import io.business.properties.Physical;
-import io.business.properties.Type;import io.business.results.Result;
+import io.business.properties.State;
+import io.business.properties.Type;
+import io.business.results.ChangeState;
+import io.business.results.Result;
 import io.business.processes.BusinessProcess;
 import io.business.results.PackingSlip;
 import org.testng.annotations.BeforeMethod;
@@ -95,6 +98,19 @@ public class BusinessProcessTest {
         assertThat(((PackingSlip)results.get(0)).getDepartment()).isEqualToIgnoringCase("Royalty Department");
     }
 
+    @Test
+    public void paymentForAMembershipShouldActiveThatMembership() {
+        // given
+        businessProcess = thirdProcess();
+        product.addProperty(new Type("Membership"));
+
+        // when
+        businessProcess.process(product);
+
+        // then
+        assertThat(product.getProperty(State.class)).isEqualTo(State.ACTIVE);
+    }
+
 
     public static BusinessProcess physicalProcess() {
         BusinessProcess process = new BusinessProcess();
@@ -109,4 +125,13 @@ public class BusinessProcessTest {
         process.addResult(new PackingSlip("Royalty Department"));
         return process;
     }
+
+    private BusinessProcess thirdProcess() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addResult(new ChangeState(State.ACTIVE));
+        return process;
+    }
+
+
 }

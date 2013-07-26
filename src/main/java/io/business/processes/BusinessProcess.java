@@ -42,7 +42,7 @@ public class BusinessProcess {
 
         // TODO if validation is ok, let's produce results
         for (Result result : results) {
-            result.from(product);
+            result.on(product);
             resultCollection.add(result);
         }
 

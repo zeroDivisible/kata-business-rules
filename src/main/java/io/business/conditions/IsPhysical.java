@@ -28,10 +28,6 @@ public class IsPhysical implements Condition {
 
     @Override
     public boolean validate(Property property) {
-        if (!(property instanceof Physical)) {
-            return false;
-        }
-
-        return ((Physical) property).isPhysical() == expected;
+        return property instanceof Physical && ((Physical) property).isPhysical() == expected;
     }
 }

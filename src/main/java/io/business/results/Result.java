@@ -7,5 +7,5 @@ import io.business.Product;
  */
 public interface Result {
 
-    public void from(Product product);
+    public void on(Product product);
 }

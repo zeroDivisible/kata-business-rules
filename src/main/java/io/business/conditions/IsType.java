@@ -29,10 +29,6 @@ public class IsType implements Condition{
 
     @Override
     public boolean validate(Property property) {
-        if (!(property instanceof Type)) {
-            return false;
-        }
-
-        return ((Type) property).getType().equals(type);
+        return property instanceof Type && type.equals(((Type) property).getType());
     }
 }
