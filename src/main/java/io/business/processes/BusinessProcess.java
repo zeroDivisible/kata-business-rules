@@ -36,11 +36,11 @@ public class BusinessProcess {
 
         for (Condition condition : conditions) {
             if (!condition.validate(product)) {
-                return resultCollection;
+                return resultCollection; // which will be empty at this stage;
             }
         }
 
-        // TODO if validation is ok, let's produce results
+        // but if we had reached this point, let's get results from the system.
         for (Result result : results) {
             result.on(product);
             resultCollection.add(result);
