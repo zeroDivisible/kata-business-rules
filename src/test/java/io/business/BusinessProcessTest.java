@@ -2,14 +2,12 @@ package io.business;
 
 import com.beust.jcommander.internal.Lists;
 import io.business.conditions.*;
+import io.business.properties.Name;
 import io.business.properties.Physical;
 import io.business.properties.State;
 import io.business.properties.Type;
-import io.business.results.ChangeState;
-import io.business.results.Email;
-import io.business.results.Result;
+import io.business.results.*;
 import io.business.processes.BusinessProcess;
-import io.business.results.PackingSlip;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -168,6 +166,38 @@ public class BusinessProcessTest {
         assertThat(((Email)results.get(1)).getMessage()).containsIgnoringCase("Membership upgraded.");
     }
 
+    @Test
+    public void payingForLearningToSkiVideoShouldAddFirstAidVideoToPackingSlip() throws Exception {
+        // given
+        businessProcess = sixthProcess();
+        product.addProperty(new Type("Video"));
+        product.addProperty(new Name("Learning To Ski"));
+        product.addProperty(new Physical(true));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
+
+        // when
+        ArrayList<Result> resultArrayList = new ArrayList<>();
+        resultArrayList.addAll(businessProcess.process(payment));
+
+        // then
+        assertThat(resultArrayList.get(0)).isInstanceOf(AddProduct.class);
+        assertThat(((AddProduct)resultArrayList.get(0)).getProductToAdd().getProperty(Type.class).getType())
+                .isEqualTo("Video");
+        assertThat(((AddProduct)resultArrayList.get(0)).getProductToAdd().getProperty(Name.class).getName())
+                .isEqualTo("First Aid");
+    }
+
+    private BusinessProcess sixthProcess() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("Video"));
+        process.addCondition(new HasName("Learning To Ski"));
+        process.addResult(new AddProduct(new Product().withProperties(
+                new Type("Video"), new Name("First Aid")
+        )));
+
+        return process;
+    }
 
     private BusinessProcess fifthProcessA() {
         BusinessProcess process= new BusinessProcess();
