@@ -67,3 +67,40 @@ public abstract class Property {
 Code has ``PaymentProcessor`` class defined, which can gather different BusinessProcesses and then apply each one to each of the Payments passed to it. Each ``Payment`` has both a ``Product`` for which it's done and a ``Reason`` for the payment (generic payment, upgrade, commision, etc.)
 
 
+## Test Log Output.
+Just for the reference, this is log.debug() output from running BusinessProcessTest tests (tests for rules defined in problem description were run in more or less random order):
+```
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [Video]}, {HasName -> expecting [Learning To Ski]}]
+i.business.processes.BusinessProcess - starting to process [{type = 'Video'}, {name = 'Learning To Ski'}, {physical = 'true'}, {Payment: reason = 'PAYMENT'}]
+i.business.processes.BusinessProcess - producing results = [{AddProduct -> new product [[{type = 'Video'}, {name = 'First Aid'}, null]]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{AddProduct -> new product [[{type = 'Video'}, {name = 'First Aid'}, null]]}]
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [book]}]
+i.business.processes.BusinessProcess - starting to process [{type = 'book'}, {Payment: reason = 'null'}]
+i.business.processes.BusinessProcess - producing results = [{PackingSlip -> [department = 'Royalty Department']}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{PackingSlip -> [department = 'Royalty Department']}]
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [book]}, {PaymentHasReason -> expecting [PAYMENT]}]
+i.business.processes.BusinessProcess - starting to process [{type = 'book'}, {Payment: reason = 'PAYMENT'}]
+i.business.processes.BusinessProcess - producing results = [{GenerateExtraPayment -> [receiver = Agent, paymentReason = COMMISSION]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{GenerateExtraPayment -> [receiver = Agent, paymentReason = COMMISSION]}]
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [Membership]}, {PaymentHasReason -> expecting [PAYMENT]}]
+i.business.processes.BusinessProcess - starting to process [{type = 'Membership'}, {Payment: reason = 'PAYMENT'}]
+i.business.processes.BusinessProcess - producing results = [{ChangeState -> to [{state = 'ACTIVE'}]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{ChangeState -> to [{state = 'ACTIVE'}]}]
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [Membership]}, {HasState -> expecting [{state = 'INACTIVE'}]}, {PaymentHasReason -> expecting [P] DEBUG i.business.processes.BusinessProcess - starting to process [{type = 'Membership'}, {state = 'INACTIVE'}, {Payment: reason = 'PAYMENT'}]
+i.business.processes.BusinessProcess - producing results = [{ChangeState -> to [{state = 'ACTIVE'}]}, {Email -> message [Membership activated.]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{ChangeState -> to [{state = 'ACTIVE'}]}, {Email -> message [Membership activated.]}]
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [Membership]}, {HasState -> expecting [{state = 'ACTIVE'}]}, {PaymentHasReason -> expecting [UPG] DEBUG i.business.processes.BusinessProcess - starting to process [{type = 'Membership'}, {state = 'ACTIVE'}, {Payment: reason = 'UPGRADE'}]
+i.business.processes.BusinessProcess - producing results = [{ChangeState -> to [{state = 'UPGRADED'}]}, {Email -> message [Membership upgraded.]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{ChangeState -> to [{state = 'UPGRADED'}]}, {Email -> message [Membership upgraded.]}]
+i.business.processes.BusinessProcess - using conditions = [{IsPhysical -> expecting [true]}, {PaymentHasReason -> expecting [PAYMENT]}]
+i.business.processes.BusinessProcess - starting to process [{physical = 'true'}, {Payment: reason = 'PAYMENT'}]
+i.business.processes.BusinessProcess - producing results = [{GenerateExtraPayment -> [receiver = Agent, paymentReason = COMMISSION]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{GenerateExtraPayment -> [receiver = Agent, paymentReason = COMMISSION]}]
+i.business.processes.BusinessProcess - using conditions = [{IsType -> expecting [Membership]}, {HasState -> expecting [{state = 'ACTIVE'}]}, {PaymentHasReason -> expecting [UPG] DEBUG i.business.processes.BusinessProcess - starting to process [{type = 'Membership'}, {state = 'ACTIVE'}, {Payment: reason = 'UPGRADE'}]
+i.business.processes.BusinessProcess - producing results = [{ChangeState -> to [{state = 'UPGRADED'}]}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{ChangeState -> to [{state = 'UPGRADED'}]}]
+i.business.processes.BusinessProcess - using conditions = [{IsPhysical -> expecting [true]}]
+i.business.processes.BusinessProcess - starting to process [{physical = 'true'}, {Payment: reason = 'null'}]
+i.business.processes.BusinessProcess - producing results = [{PackingSlip -> [department = '']}] if conditions are fulfilled
+i.business.processes.BusinessProcess - produced results: [{PackingSlip -> [department = '']}]
+```
