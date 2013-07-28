@@ -188,38 +188,6 @@ public class BusinessProcessTest {
                 .isEqualTo("First Aid");
     }
 
-    private BusinessProcess sixthProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Video"));
-        process.addCondition(new HasName("Learning To Ski"));
-        process.addResult(new AddProduct(new Product().withProperties(
-                new Type("Video"), new Name("First Aid")
-        )));
-
-        return process;
-    }
-
-    private BusinessProcess fifthProcessA() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("INACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new ChangeState(new State("ACTIVE")));
-        process.addResult(new Email("Membership activated."));
-        return process;
-    }
-
-    private BusinessProcess fifthProcessB() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("ACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
-        process.addResult(new ChangeState(new State("UPGRADED")));
-        process.addResult(new Email("Membership upgraded."));
-        return process;
-    }
-
-
 
     public static BusinessProcess physicalProcess() {
         BusinessProcess process = new BusinessProcess();
@@ -247,6 +215,37 @@ public class BusinessProcessTest {
         process.addCondition(new IsType("Membership"));
         process.addCondition(new HasState(new State("ACTIVE")));
         process.addResult(new ChangeState(new State("UPGRADED")));
+        return process;
+    }
+
+    private BusinessProcess fifthProcessA() {
+        BusinessProcess process= new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(new State("INACTIVE")));
+        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
+        process.addResult(new ChangeState(new State("ACTIVE")));
+        process.addResult(new Email("Membership activated."));
+        return process;
+    }
+
+    private BusinessProcess fifthProcessB() {
+        BusinessProcess process= new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(new State("ACTIVE")));
+        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
+        process.addResult(new ChangeState(new State("UPGRADED")));
+        process.addResult(new Email("Membership upgraded."));
+        return process;
+    }
+
+
+    private BusinessProcess sixthProcess() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("Video"));
+        process.addCondition(new HasName("Learning To Ski"));
+        process.addResult(new AddProduct(new Product().withProperties(
+                new Type("Video"), new Name("First Aid")
+        )));
         return process;
     }
 }
