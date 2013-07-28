@@ -101,9 +101,11 @@ public class BusinessProcessTest {
         // given
         businessProcess = BusinessProcessHelper.thirdProcess();
         product.addProperty(new Type("Membership"));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
 
         // when
-        businessProcess.process(new Payment(product));
+        businessProcess.process(payment);
 
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(new State("ACTIVE"));
@@ -116,9 +118,11 @@ public class BusinessProcessTest {
         businessProcess = BusinessProcessHelper.fourthProcess();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("ACTIVE"));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.UPGRADE);
 
         // when
-        businessProcess.process(new Payment(product));
+        businessProcess.process(payment);
 
         // then
         assertThat(product.getProperty(State.class)).isEqualTo(new State("UPGRADED"));

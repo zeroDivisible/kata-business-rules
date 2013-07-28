@@ -49,4 +49,20 @@ public class BusinessProcess {
 
         return resultCollection;
     }
+
+    public BusinessProcess withConditions(Condition... processConditions) {
+        for (Condition condition : processConditions) {
+            this.addCondition(condition);
+        }
+
+        return this;
+    }
+
+    public BusinessProcess withResults(Result... processResults) {
+        for (Result result : processResults) {
+            this.addResult(result);
+        }
+
+        return this;
+    }
 }

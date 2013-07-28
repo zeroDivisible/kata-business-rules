@@ -14,79 +14,114 @@ import io.business.results.*;
  */
 public class BusinessProcessHelper {
 
+    /**
+     * If the payment is for a physical product, generate a packing slip for shipping.
+     */
     public static BusinessProcess firstProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsPhysical(true));
-        process.addResult(new PackingSlip());
-        return process;
+        return new BusinessProcess()
+                .withConditions(new IsPhysical(true))
+                .withResults(new PackingSlip());
     }
 
+    /**
+     * If the payment is for a book, create a duplicate packing slip for the royalty department.
+     */
     public static BusinessProcess secondProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("book"));
-        process.addResult(new PackingSlip("Royalty Department"));
-        return process;
+        return new BusinessProcess()
+                .withConditions(new IsType("book"))
+                .withResults(new PackingSlip("Royalty Department"));
     }
 
+    /**
+     * If the payment is for a membership, activate that membership.
+     */
     public static BusinessProcess thirdProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addResult(new ChangeState(new State("ACTIVE")));
-        return process;
+        return new BusinessProcess()
+                .withConditions(
+                        new IsType("Membership"),
+                        new PaymentHasReason(Reason.PAYMENT))
+                .withResults(new ChangeState(new State("ACTIVE")));
     }
 
+    /**
+     * If the payment is an upgrade to a membership, apply the upgrade.
+     */
     public static BusinessProcess fourthProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("ACTIVE")));
-        process.addResult(new ChangeState(new State("UPGRADED")));
-        return process;
+        return new BusinessProcess()
+                .withConditions(
+                        new IsType("Membership"),
+                        new HasState(new State("ACTIVE")),
+                        new PaymentHasReason(Reason.UPGRADE))
+                .withResults(new ChangeState(new State("UPGRADED")));
     }
 
+    /**
+     * If the payment is for a membership, e-mail the owner and inform them of the activation
+     */
     public static BusinessProcess fifthProcessA() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("INACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new ChangeState(new State("ACTIVE")));
-        process.addResult(new Email("Membership activated."));
-        return process;
+        return new BusinessProcess()
+                .withConditions(
+                        new IsType("Membership"),
+                        new HasState(new State("INACTIVE")),
+                        new PaymentHasReason(Reason.PAYMENT))
+                .withResults(
+                        new ChangeState(new State("ACTIVE")),
+                        new Email("Membership activated."));
     }
 
+    /**
+     * If the payment is for a membership upgrade, e-mail the owner and inform them of the upgrade.
+     */
     public static BusinessProcess fifthProcessB() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("ACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
-        process.addResult(new ChangeState(new State("UPGRADED")));
-        process.addResult(new Email("Membership upgraded."));
-        return process;
+        return new BusinessProcess()
+                .withConditions(
+                        new IsType("Membership"),
+                        new HasState(new State("ACTIVE")),
+                        new PaymentHasReason(Reason.UPGRADE))
+                .withResults(
+                        new ChangeState(new State("UPGRADED")),
+                        new Email("Membership upgraded."));
     }
 
 
+    /**
+     * If the payment is for the video "Learning to Ski,"
+     * add a free "First Aid" video to the packing slip (the result of a court decision in 1997).
+     */
     public static BusinessProcess sixthProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Video"));
-        process.addCondition(new HasName("Learning To Ski"));
-        process.addResult(new AddProduct(new Product().withProperties(
-                new Type("Video"), new Name("First Aid")
-        )));
-        return process;
+        return new BusinessProcess()
+                .withConditions(
+                        new IsType("Video"),
+                        new HasName("Learning To Ski"))
+                .withResults(
+                        new AddProduct(
+                                new Product().withProperties(
+                                        new Type("Video"),
+                                        new Name("First Aid")
+                                )));
     }
 
+    /**
+     * If the payment is for a physical product, generate a commission payment to the agent.
+     */
     public static BusinessProcess seventhProcessA() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsPhysical(true));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
-        return process;
+        return new BusinessProcess()
+                .withConditions(
+                        new IsPhysical(true),
+                        new PaymentHasReason(Reason.PAYMENT))
+                .withResults(
+                        new GenerateExtraPayment("Agent", Reason.COMMISSION));
     }
 
-    public static BusinessProcess seventhProcessB() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("book"));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
-        return process;
+    /**
+     * If the payment is for a book, generate a commission payment to the agent.
+     */
+     public static BusinessProcess seventhProcessB() {
+        return new BusinessProcess()
+                .withConditions(
+                        new IsType("book"),
+                        new PaymentHasReason(Reason.PAYMENT))
+                .withResults(
+                        new GenerateExtraPayment("Agent", Reason.COMMISSION));
     }
 }
