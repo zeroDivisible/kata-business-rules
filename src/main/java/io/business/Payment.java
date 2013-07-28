@@ -9,9 +9,20 @@ public class Payment {
     private Product product;
     private Reason reason;
 
+    /**
+     * Creates a base payment with a {@link Reason} equal to {@link Reason#PAYMENT}
+     */
     public Payment(Product product) {
         this.product = product;
         product.setRelatedPayment(this);
+    }
+
+    /**
+     * Creates a payment with whatever reason will be specified.
+     */
+    public Payment(Product product, Reason reason) {
+        this(product);
+        this.reason = reason;
     }
 
     public void setProduct(Product product) {

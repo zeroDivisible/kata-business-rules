@@ -101,8 +101,7 @@ public class BusinessProcessTest {
         // given
         businessProcess = BusinessProcessHelper.thirdProcess();
         product.addProperty(new Type("Membership"));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.PAYMENT);
+        Payment payment = new Payment(product, Reason.PAYMENT);
 
         // when
         businessProcess.process(payment);
@@ -118,8 +117,7 @@ public class BusinessProcessTest {
         businessProcess = BusinessProcessHelper.fourthProcess();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("ACTIVE"));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.UPGRADE);
+        Payment payment = new Payment(product, Reason.UPGRADE);
 
         // when
         businessProcess.process(payment);
@@ -135,8 +133,7 @@ public class BusinessProcessTest {
         businessProcess = BusinessProcessHelper.fifthProcessA();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("INACTIVE"));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.PAYMENT);
+        Payment payment = new Payment(product, Reason.PAYMENT);
 
         // when
         ArrayList <Result> results = new ArrayList<>();
@@ -156,8 +153,7 @@ public class BusinessProcessTest {
         businessProcess = BusinessProcessHelper.fifthProcessB();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("ACTIVE"));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.UPGRADE);
+        Payment payment = new Payment(product, Reason.UPGRADE);
 
         // when
         ArrayList <Result> results = new ArrayList<>();
@@ -178,8 +174,7 @@ public class BusinessProcessTest {
         product.addProperty(new Type("Video"));
         product.addProperty(new Name("Learning To Ski"));
         product.addProperty(new Physical(true));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.PAYMENT);
+        Payment payment = new Payment(product, Reason.PAYMENT);
 
         // when
         ArrayList<Result> resultArrayList = new ArrayList<>();
@@ -198,8 +193,7 @@ public class BusinessProcessTest {
         // given
         businessProcess = BusinessProcessHelper.seventhProcessA();
         product.addProperty(new Physical(true));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.PAYMENT);
+        Payment payment = new Payment(product, Reason.PAYMENT);
 
         // when
         ArrayList<Result> resultArrayList = new ArrayList<>();
@@ -216,8 +210,7 @@ public class BusinessProcessTest {
         // given
         businessProcess = BusinessProcessHelper.seventhProcessB();
         product.addProperty(new Type("book"));
-        Payment payment = new Payment(product);
-        payment.setReason(Reason.PAYMENT);
+        Payment payment = new Payment(product, Reason.PAYMENT);
 
         // when
         ArrayList<Result> resultArrayList = new ArrayList<>();
