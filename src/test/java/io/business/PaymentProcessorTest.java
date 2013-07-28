@@ -1,5 +1,6 @@
 package io.business;
 
+import io.business.processes.BusinessProcessHelper;
 import io.business.properties.Physical;
 import io.business.results.PackingSlip;
 import io.business.results.Result;
@@ -33,7 +34,7 @@ public class PaymentProcessorTest {
         // given
         Collection<Result> results;
         product.addProperty(new Physical(true));
-        businessProcess = BusinessProcessTest.physicalProcess();
+        businessProcess = BusinessProcessHelper.firstProcess();
         paymentProcessor.addBusinessProcess(businessProcess);
 
         // when
@@ -48,7 +49,7 @@ public class PaymentProcessorTest {
          // given
         Collection<Result> results;
         product.addProperty(new Physical(false));
-        businessProcess = BusinessProcessTest.physicalProcess();
+        businessProcess = BusinessProcessHelper.firstProcess();
         paymentProcessor.addBusinessProcess(businessProcess);
 
         // when

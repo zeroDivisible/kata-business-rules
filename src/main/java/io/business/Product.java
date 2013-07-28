@@ -1,15 +1,14 @@
 package io.business;
 
-import io.business.properties.Name;
 import io.business.properties.Property;
-import io.business.properties.Type;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 /**
+ * Class representing a product. By default product is a blank canvas and it's properties are mostly defined
+ * by whichever {@link Property Properties} will be added to it.
  * @author zerodi
  */
 public class Product {

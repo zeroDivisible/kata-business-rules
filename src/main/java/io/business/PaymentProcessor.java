@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
+ * This class represent a payment processor, which has collection of processes, which can be applied to a single
+ * payment, producing a set of results.
  * @author zerodi
  */
 public class PaymentProcessor {
