@@ -64,4 +64,6 @@ public abstract class Property {
 }
 ```
 
+Code has ``PaymentProcessor`` class defined, which can gather different BusinessProcesses and then apply each one to each of the Payments passed to it. Each ``Payment`` has both a ``Product`` for which it's done and a ``Reason`` for the payment (generic payment, upgrade, commision, etc.)
+
 
