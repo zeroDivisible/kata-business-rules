@@ -2,6 +2,7 @@ package io.business;
 
 import com.beust.jcommander.internal.Lists;
 import io.business.conditions.*;
+import io.business.processes.BusinessProcessHelper;
 import io.business.properties.Name;
 import io.business.properties.Physical;
 import io.business.properties.State;
@@ -47,7 +48,7 @@ public class BusinessProcessTest {
     @Test
     public void addingConditionAndARuleShouldBeReportedProperly() throws Exception {
         // given
-        businessProcess = physicalProcess();
+        businessProcess = BusinessProcessHelper.firstProcess();
         List<Condition> businessProcessConditions = Lists.newArrayList(businessProcess.getConditions());
         List<Result> businessProcessResults = Lists.newArrayList(businessProcess.getResults());
 
@@ -68,7 +69,7 @@ public class BusinessProcessTest {
     @Test
     public void processCheckingPhysicalPropertiesProducesAPackingSlip() {
         // given
-        businessProcess = physicalProcess();
+        businessProcess = BusinessProcessHelper.firstProcess();
         product.addProperty(new Physical(true));
 
         // when
@@ -82,7 +83,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForABookShouldCreatePackingSlipForRoyaltyDepartment() throws Exception {
         // given
-        businessProcess = secondProcess();
+        businessProcess = BusinessProcessHelper.secondProcess();
         product.addProperty(new Type("book"));
 
         // when
@@ -98,7 +99,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForAMembershipShouldActiveThatMembership() {
         // given
-        businessProcess = thirdProcess();
+        businessProcess = BusinessProcessHelper.thirdProcess();
         product.addProperty(new Type("Membership"));
 
         // when
@@ -112,7 +113,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForActiveMembershipShouldUpgradeTheMembership() {
         // given
-        businessProcess = fourthProcess();
+        businessProcess = BusinessProcessHelper.fourthProcess();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("ACTIVE"));
 
@@ -127,7 +128,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForAMembershipShouldGenerateAnEmailAboutTheActivation() {
         // given
-        businessProcess = fifthProcessA();
+        businessProcess = BusinessProcessHelper.fifthProcessA();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("INACTIVE"));
         Payment payment = new Payment(product);
@@ -148,7 +149,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForAMembershipUpgradeShouldGenerateAnEmail() {
         // given
-        businessProcess = fifthProcessB();
+        businessProcess = BusinessProcessHelper.fifthProcessB();
         product.addProperty(new Type("Membership"));
         product.addProperty(new State("ACTIVE"));
         Payment payment = new Payment(product);
@@ -169,7 +170,7 @@ public class BusinessProcessTest {
     @Test
     public void payingForLearningToSkiVideoShouldAddFirstAidVideoToPackingSlip() throws Exception {
         // given
-        businessProcess = sixthProcess();
+        businessProcess = BusinessProcessHelper.sixthProcess();
         product.addProperty(new Type("Video"));
         product.addProperty(new Name("Learning To Ski"));
         product.addProperty(new Physical(true));
@@ -191,7 +192,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForAPhysicalProductShouldGenerateCommissionPayment() {
         // given
-        businessProcess = seventhProcessA();
+        businessProcess = BusinessProcessHelper.seventhProcessA();
         product.addProperty(new Physical(true));
         Payment payment = new Payment(product);
         payment.setReason(Reason.PAYMENT);
@@ -209,7 +210,7 @@ public class BusinessProcessTest {
     @Test
     public void paymentForABookShouldGenerateCommissionToAnAgent() {
         // given
-        businessProcess = seventhProcessB();
+        businessProcess = BusinessProcessHelper.seventhProcessB();
         product.addProperty(new Type("book"));
         Payment payment = new Payment(product);
         payment.setReason(Reason.PAYMENT);
@@ -225,80 +226,5 @@ public class BusinessProcessTest {
     }
 
 
-    private BusinessProcess seventhProcessA() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsPhysical(true));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
-        return process;
-    }
 
-    private BusinessProcess seventhProcessB() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("book"));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
-        return process;
-    }
-
-
-    public static BusinessProcess physicalProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsPhysical(true));
-        process.addResult(new PackingSlip());
-        return process;
-    }
-
-    public static BusinessProcess secondProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("book"));
-        process.addResult(new PackingSlip("Royalty Department"));
-        return process;
-    }
-
-    private BusinessProcess thirdProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addResult(new ChangeState(new State("ACTIVE")));
-        return process;
-    }
-
-    private static BusinessProcess fourthProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("ACTIVE")));
-        process.addResult(new ChangeState(new State("UPGRADED")));
-        return process;
-    }
-
-    private BusinessProcess fifthProcessA() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("INACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new ChangeState(new State("ACTIVE")));
-        process.addResult(new Email("Membership activated."));
-        return process;
-    }
-
-    private BusinessProcess fifthProcessB() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("ACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
-        process.addResult(new ChangeState(new State("UPGRADED")));
-        process.addResult(new Email("Membership upgraded."));
-        return process;
-    }
-
-
-    private BusinessProcess sixthProcess() {
-        BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Video"));
-        process.addCondition(new HasName("Learning To Ski"));
-        process.addResult(new AddProduct(new Product().withProperties(
-                new Type("Video"), new Name("First Aid")
-        )));
-        return process;
-    }
 }
