@@ -1,6 +1,8 @@
 package io.business;
 
+import io.business.properties.Name;
 import io.business.properties.Property;
+import io.business.properties.Type;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,5 +71,13 @@ public class Product {
 
     public Payment getRelatedPayment() {
         return relatedPayment;
+    }
+
+    public Product withProperties(Property... properties) {
+        for (Property property : properties) {
+            this.addProperty(property);
+        }
+
+        return this;
     }
 }
