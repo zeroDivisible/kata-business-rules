@@ -188,6 +188,59 @@ public class BusinessProcessTest {
                 .isEqualTo("First Aid");
     }
 
+    @Test
+    public void paymentForAPhysicalProductShouldGenerateCommissionPayment() {
+        // given
+        businessProcess = seventhProcessA();
+        product.addProperty(new Physical(true));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
+
+        // when
+        ArrayList<Result> resultArrayList = new ArrayList<>();
+        resultArrayList.addAll(businessProcess.process(payment));
+
+        // then
+        assertThat(resultArrayList.get(0)).isInstanceOf(GenerateExtraPayment.class);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getPaymentReason()).isEqualTo(Reason.COMMISSION);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getReceiver()).isEqualTo("Agent");
+    }
+
+    @Test
+    public void paymentForABookShouldGenerateCommissionToAnAgent() {
+        // given
+        businessProcess = seventhProcessB();
+        product.addProperty(new Type("book"));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
+
+        // when
+        ArrayList<Result> resultArrayList = new ArrayList<>();
+        resultArrayList.addAll(businessProcess.process(payment));
+
+        // then
+        assertThat(resultArrayList.get(0)).isInstanceOf(GenerateExtraPayment.class);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getPaymentReason()).isEqualTo(Reason.COMMISSION);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getReceiver()).isEqualTo("Agent");
+    }
+
+
+    private BusinessProcess seventhProcessA() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsPhysical(true));
+        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
+        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
+        return process;
+    }
+
+    private BusinessProcess seventhProcessB() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("book"));
+        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
+        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
+        return process;
+    }
+
 
     public static BusinessProcess physicalProcess() {
         BusinessProcess process = new BusinessProcess();
