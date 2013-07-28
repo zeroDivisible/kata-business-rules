@@ -3,7 +3,7 @@ kata-business-rules
 To solve this one I had used Java (which is not as sexy as Ruby or JS, though it got the job done:) as the language and [TestNG](http://testng.org/doc/index.html) as the testing framework and [FEST Assertions](https://code.google.com/p/fest/) to ease the pain of writing test methods.
 
 ## Usage
-Processes can be defined ad hoc (though there is [BusinessProcessHelper](https://github.com/zeroDivisible/kata-business-rules/blob/master/src/main/java/io/business/processes/BusinessProcessHelper.java) class which defines all the ones described in the problem statement, using syntaxt like the one below:
+Processes can be defined ad hoc (though there is [BusinessProcessHelper](https://github.com/zeroDivisible/kata-business-rules/blob/master/src/main/java/io/business/processes/BusinessProcessHelper.java) class which defines all the ones described in the problem statement, using syntax like the one below:
 
 ```
 BusinessProcess fourthProcess = new BusinessProcess()
