@@ -1,8 +1,3 @@
-kata-business-rules
-===================
-
-Code which tries to solve code kata defined here: http://codekata.pragprog.com/2007/01/kata_sixteen_bu.html
-
 ## Overview of solution
 To solve this one I had used Java (which is not as sexy as Ruby or JS, though it got the job done:) as the language and [TestNG](http://testng.org/doc/index.html) as the testing framework and [FEST Assertions](https://code.google.com/p/fest/) to ease the pain of writing test methods.
 
