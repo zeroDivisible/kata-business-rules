@@ -41,4 +41,9 @@ public class Payment {
     public void setReason(Reason reason) {
         this.reason = reason;
     }
+
+    @Override
+    public String toString() {
+        return "{Payment: reason = '" + reason + "'}";
+    }
 }

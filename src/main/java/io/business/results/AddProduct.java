@@ -29,4 +29,9 @@ public class AddProduct implements Result {
     public void setSourceProduct(Product sourceProduct) {
         this.sourceProduct = sourceProduct;
     }
+
+    @Override
+    public String toString() {
+        return "{AddProduct -> new product [" + productToAdd + "]}";
+    }
 }

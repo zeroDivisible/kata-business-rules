@@ -17,4 +17,9 @@ public class Type extends Property {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "{type = '" + type + "'}";
+    }
 }

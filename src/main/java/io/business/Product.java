@@ -79,4 +79,20 @@ public class Product {
 
         return this;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (Property property : properties) {
+            builder.append(property);
+            builder.append(", ");
+
+        }
+
+        builder.append(relatedPayment);
+
+        builder.append("]");
+        return builder.toString();
+    }
 }
