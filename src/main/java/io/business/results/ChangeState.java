@@ -25,4 +25,9 @@ public class ChangeState implements Result{
     public State getTargetState() {
         return targetState;
     }
+
+    @Override
+    public String toString() {
+        return "{ChangeState -> to [" + targetState + "]}";
+    }
 }

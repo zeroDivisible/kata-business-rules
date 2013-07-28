@@ -25,4 +25,9 @@ public class PaymentHasReason implements Condition {
     public boolean validate(Property property) {
         return false;  //TODO Implement
     }
+
+    @Override
+    public String toString() {
+        return "{PaymentHasReason -> expecting [" + reason + "]}";
+    }
 }

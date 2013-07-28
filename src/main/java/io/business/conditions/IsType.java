@@ -31,4 +31,9 @@ public class IsType implements Condition{
     public boolean validate(Property property) {
         return property instanceof Type && type.equals(((Type) property).getType());
     }
+
+    @Override
+    public String toString() {
+        return "{IsType -> expecting [" + type + "]}";
+    }
 }

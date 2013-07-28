@@ -37,4 +37,9 @@ public class GenerateExtraPayment implements Result{
     public Payment getOriginatingPayment() {
         return originatingPayment;
     }
+
+    @Override
+    public String toString() {
+        return "{GenerateExtraPayment -> [receiver = " + receiver + ", paymentReason = " + paymentReason + "]}";
+    }
 }

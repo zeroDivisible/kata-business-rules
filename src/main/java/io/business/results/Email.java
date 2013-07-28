@@ -21,4 +21,10 @@ public class Email implements Result {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String toString() {
+        return "{Email -> message [" + message + "]}";
+    }
+
 }

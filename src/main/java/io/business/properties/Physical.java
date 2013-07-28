@@ -19,4 +19,9 @@ public class Physical extends Property {
     public void setPhysical(boolean physical) {
         this.physical = physical;
     }
+
+    @Override
+    public String toString() {
+        return "{physical = '" + physical + "'}";
+    }
 }

@@ -37,4 +37,9 @@ public class State extends Property {
     public int hashCode() {
         return state != null ? state.hashCode() : 0;
     }
+
+    @Override
+    public String toString() {
+        return "{state = '" + state + "'}";
+    }
 }

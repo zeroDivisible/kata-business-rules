@@ -7,7 +7,7 @@ import io.business.Product;
  */
 public class PackingSlip implements Result {
     private Product product = null;
-    private String department;
+    private String department = "";
 
     public PackingSlip(String department) {
         this.department = department;
@@ -36,5 +36,10 @@ public class PackingSlip implements Result {
     public PackingSlip withDepartment(String department) {
         setDepartment(department);
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "{PackingSlip -> [department = '" + department + "']}";
     }
 }

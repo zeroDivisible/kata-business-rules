@@ -115,9 +115,10 @@ public class BusinessProcessTest {
     public void paymentForActiveMembershipShouldUpgradeTheMembership() {
         // given
         businessProcess = BusinessProcessHelper.fourthProcess();
-        product.addProperty(new Type("Membership"));
-        product.addProperty(new State("ACTIVE"));
-        Payment payment = new Payment(product, Reason.UPGRADE);
+        Payment payment = new Payment(
+                product.withProperties(
+                        new Type("Membership"),
+                        new State("ACTIVE")), Reason.UPGRADE);
 
         // when
         businessProcess.process(payment);

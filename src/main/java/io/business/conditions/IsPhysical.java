@@ -30,4 +30,9 @@ public class IsPhysical implements Condition {
     public boolean validate(Property property) {
         return property instanceof Physical && ((Physical) property).isPhysical() == expected;
     }
+
+    @Override
+    public String toString() {
+        return "{IsPhysical -> expecting [" + expected + "]}";
+    }
 }

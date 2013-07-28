@@ -31,4 +31,9 @@ public class HasState implements Condition{
     public boolean validate(Property property) {
         return property instanceof State && state.equals(property);
     }
+
+    @Override
+    public String toString() {
+        return "{HasState -> expecting [" + state + "]}";
+    }
 }

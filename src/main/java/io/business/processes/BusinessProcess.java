@@ -1,9 +1,10 @@
 package io.business.processes;
 
 import io.business.Payment;
-import io.business.Product;
 import io.business.conditions.Condition;
 import io.business.results.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +13,8 @@ import java.util.Collection;
  * @author zerodi
  */
 public class BusinessProcess {
+    private static final Logger log = LoggerFactory.getLogger(BusinessProcess.class);
+
     private Collection<Condition> conditions = new ArrayList<>();
     private Collection<Result> results = new ArrayList<>();
 
@@ -33,10 +36,15 @@ public class BusinessProcess {
     }
 
     public Collection<Result> process(Payment payment) {
-        Collection<Result> resultCollection = new ArrayList<>();
+        log.debug("using conditions = {}", conditions);
+        log.debug("starting to process {}", payment.getProduct());
+        log.debug("producing results = {} if conditions are fulfilled", results);
+
+        Collection <Result> resultCollection = new ArrayList<>();
 
         for (Condition condition : conditions) {
             if (!condition.validate(payment.getProduct())) {
+                log.debug("condition {} wasn't fulfilled - terminating process.", condition);
                 return resultCollection; // which will be empty at this stage;
             }
         }
@@ -47,6 +55,7 @@ public class BusinessProcess {
             resultCollection.add(result);
         }
 
+        log.debug("produced results: {}", resultCollection);
         return resultCollection;
     }
 
