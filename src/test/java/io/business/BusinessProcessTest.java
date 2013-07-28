@@ -91,9 +91,10 @@ public class BusinessProcessTest {
         results.addAll(businessProcess.process(new Payment(product)));
 
         // then
-        assertThat(results).hasSize(1);
+        assertThat(results).hasSize(2);
         assertThat(results.get(0)).isInstanceOf(PackingSlip.class);
-        assertThat(((PackingSlip)results.get(0)).getDepartment()).isEqualToIgnoringCase("Royalty Department");
+        assertThat(results.get(1)).isInstanceOf(PackingSlip.class);
+        assertThat(((PackingSlip)results.get(1)).getDepartment()).isEqualToIgnoringCase("Royalty Department");
     }
 
     @Test

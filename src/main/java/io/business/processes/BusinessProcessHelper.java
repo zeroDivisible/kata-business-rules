@@ -29,7 +29,9 @@ public class BusinessProcessHelper {
     public static BusinessProcess secondProcess() {
         return new BusinessProcess()
                 .withConditions(new IsType("book"))
-                .withResults(new PackingSlip("Royalty Department"));
+                .withResults(
+                        new PackingSlip(),
+                        new PackingSlip("Royalty Department"));
     }
 
     /**
