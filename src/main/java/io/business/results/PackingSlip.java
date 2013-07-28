@@ -14,7 +14,6 @@ public class PackingSlip implements Result {
     }
 
     public PackingSlip() {
-        this.department = department;
     }
 
     @Override

@@ -8,4 +8,5 @@ public enum Reason {
     PAYMENT,
     ACTIVATION,
     UPGRADE,
+    COMMISSION,
 }

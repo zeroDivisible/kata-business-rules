@@ -188,37 +188,58 @@ public class BusinessProcessTest {
                 .isEqualTo("First Aid");
     }
 
-    private BusinessProcess sixthProcess() {
+    @Test
+    public void paymentForAPhysicalProductShouldGenerateCommissionPayment() {
+        // given
+        businessProcess = seventhProcessA();
+        product.addProperty(new Physical(true));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
+
+        // when
+        ArrayList<Result> resultArrayList = new ArrayList<>();
+        resultArrayList.addAll(businessProcess.process(payment));
+
+        // then
+        assertThat(resultArrayList.get(0)).isInstanceOf(GenerateExtraPayment.class);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getPaymentReason()).isEqualTo(Reason.COMMISSION);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getReceiver()).isEqualTo("Agent");
+    }
+
+    @Test
+    public void paymentForABookShouldGenerateCommissionToAnAgent() {
+        // given
+        businessProcess = seventhProcessB();
+        product.addProperty(new Type("book"));
+        Payment payment = new Payment(product);
+        payment.setReason(Reason.PAYMENT);
+
+        // when
+        ArrayList<Result> resultArrayList = new ArrayList<>();
+        resultArrayList.addAll(businessProcess.process(payment));
+
+        // then
+        assertThat(resultArrayList.get(0)).isInstanceOf(GenerateExtraPayment.class);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getPaymentReason()).isEqualTo(Reason.COMMISSION);
+        assertThat(((GenerateExtraPayment)resultArrayList.get(0)).getReceiver()).isEqualTo("Agent");
+    }
+
+
+    private BusinessProcess seventhProcessA() {
         BusinessProcess process = new BusinessProcess();
-        process.addCondition(new IsType("Video"));
-        process.addCondition(new HasName("Learning To Ski"));
-        process.addResult(new AddProduct(new Product().withProperties(
-                new Type("Video"), new Name("First Aid")
-        )));
-
-        return process;
-    }
-
-    private BusinessProcess fifthProcessA() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("INACTIVE")));
+        process.addCondition(new IsPhysical(true));
         process.addCondition(new PaymentHasReason(Reason.PAYMENT));
-        process.addResult(new ChangeState(new State("ACTIVE")));
-        process.addResult(new Email("Membership activated."));
+        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
         return process;
     }
 
-    private BusinessProcess fifthProcessB() {
-        BusinessProcess process= new BusinessProcess();
-        process.addCondition(new IsType("Membership"));
-        process.addCondition(new HasState(new State("ACTIVE")));
-        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
-        process.addResult(new ChangeState(new State("UPGRADED")));
-        process.addResult(new Email("Membership upgraded."));
+    private BusinessProcess seventhProcessB() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("book"));
+        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
+        process.addResult(new GenerateExtraPayment("Agent", Reason.COMMISSION));
         return process;
     }
-
 
 
     public static BusinessProcess physicalProcess() {
@@ -247,6 +268,37 @@ public class BusinessProcessTest {
         process.addCondition(new IsType("Membership"));
         process.addCondition(new HasState(new State("ACTIVE")));
         process.addResult(new ChangeState(new State("UPGRADED")));
+        return process;
+    }
+
+    private BusinessProcess fifthProcessA() {
+        BusinessProcess process= new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(new State("INACTIVE")));
+        process.addCondition(new PaymentHasReason(Reason.PAYMENT));
+        process.addResult(new ChangeState(new State("ACTIVE")));
+        process.addResult(new Email("Membership activated."));
+        return process;
+    }
+
+    private BusinessProcess fifthProcessB() {
+        BusinessProcess process= new BusinessProcess();
+        process.addCondition(new IsType("Membership"));
+        process.addCondition(new HasState(new State("ACTIVE")));
+        process.addCondition(new PaymentHasReason(Reason.UPGRADE));
+        process.addResult(new ChangeState(new State("UPGRADED")));
+        process.addResult(new Email("Membership upgraded."));
+        return process;
+    }
+
+
+    private BusinessProcess sixthProcess() {
+        BusinessProcess process = new BusinessProcess();
+        process.addCondition(new IsType("Video"));
+        process.addCondition(new HasName("Learning To Ski"));
+        process.addResult(new AddProduct(new Product().withProperties(
+                new Type("Video"), new Name("First Aid")
+        )));
         return process;
     }
 }
