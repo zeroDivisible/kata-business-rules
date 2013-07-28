@@ -1,6 +1,7 @@
 package io.business;
 
 /**
+ * Payment class, which represents a payment in relation to a product, optionally specifying a reason for a payment.
  * @author zerodi
  */
 public class Payment {

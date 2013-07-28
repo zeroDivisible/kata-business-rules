@@ -3,8 +3,7 @@ package io.business.properties;
 import io.business.Product;
 
 /**
- * Defines a property of an objects. It's not an abstract class as that way we can also have enums as Properties.
- * (cheap and dirty trick to make this kata a bit easier to code)
+ * Defines a base abstract class, being a property of an object.
  * @author zerodi
  */
 public abstract class Property {
